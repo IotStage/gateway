@@ -2,7 +2,7 @@
 	define("USERNAME", "root");
 	define("DATABASE_LAMPADAIRE", "lampeadair");
 	define("DATABASE_METEO", "meteo");
-	define("DATABASE_PLV", "senpluvio");
+	define("DATABASE_SENPLUVIO", "senpluvio");
 	define("PASSWORD", "passer");
 	define("HOSTNAME", "127.0.0.1");
 

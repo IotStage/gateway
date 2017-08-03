@@ -11,10 +11,12 @@
 
 		require_once("ControllerClass.php");
 		//inserer dans la base de donnees locale
-                $controller = new Controller();
-                $bdd_lampadaire = $controller->connecteToDataBaseLampadaire();
+        $controller = new Controller();
+        $bdd_lampadaire = $controller->connecteToDataBaseLampadaire();
 		
 		$bdd_meteo = $controller->connecteToDataBaseMeteo();
+
+		$bdd_senpluvio = $controller->connecteToDataBaseSenPluvio();
 
 		//$bdd_senpluvio = $controller->connecteToDataBasePluvio();
 
@@ -33,11 +35,17 @@
 //			print_r($data_to_send);
 			
 			//stocker dans la base de donnees
-                                $controller->insertToDataBase($bdd_meteo, $data_to_send, "meteo");
+            $controller->insertToDataBase($bdd_meteo, $data_to_send, "meteo");
 
                                 //repliquer dans la base le site
-                        $controller->replicate($bdd_meteo, $data_to_send, "meteo");
+            $controller->replicate($bdd_meteo, $data_to_send, "meteo");
 		}
+
+		if($id_lampe == "plv"){
+			$controller->insertMsg($bdd_senpluvio, $_GET['donnees'] . " $ladate");
+			
+		}
+		
 		else{
 			$courant = $donnees[1];
 			$tension_batterie = $donnees[2];

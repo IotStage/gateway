@@ -29,25 +29,46 @@
 
 		
 		function connecteToDataBaseMeteo($host=HOSTNAME, $basename=DATABASE_METEO, $username=USERNAME, $password=PASSWORD, $type_base="mysql"){
-                        $bdd = null;
-                        if($type_base == "mysql"){
-                                $req_con = "mysql:host=" . $host . ";dbname=" . $basename . "";
-                                //$req2 = "SET NAMES UTF8";
-                                try{
-                                        $bdd = new PDO($req_con, $username, $password);
-                                        $req = $bdd->prepare("SET NAMES UTF8");
-                                        $req->execute();
+                $bdd = null;
+                if($type_base == "mysql"){
+                        $req_con = "mysql:host=" . $host . ";dbname=" . $basename . "";
+                        //$req2 = "SET NAMES UTF8";
+                        try{
+                                $bdd = new PDO($req_con, $username, $password);
+                                $req = $bdd->prepare("SET NAMES UTF8");
+                                $req->execute();
 
-					//$this->writeLog("Connexion à la base de données ", "log", "senpluvio");
+			//$this->writeLog("Connexion à la base de données ", "log", "senpluvio");
 
-                                }catch(Exception $e){
-                                        $bdd = null;
-					$this->writeLog("Problème de connexion à la base de données ", "log", "senpluvio");
-					$this->writeLog("Problème de connexion à la base de données ", "error", "senpluvio");
-                                }
+                        }catch(Exception $e){
+                                $bdd = null;
+			$this->writeLog("Problème de connexion à la base de données ", "log", "meteo");
+			$this->writeLog("Problème de connexion à la base de données ", "error", "meteo");
                         }
-                        return $bdd;
                 }
+                return $bdd;
+        }
+
+        function connecteToDataBaseSenPuvio($host=HOSTNAME, $basename=DATABASE_SENPLUVIO, $username=USERNAME, $password=PASSWORD, $type_base="mysql"){
+                $bdd = null;
+                if($type_base == "mysql"){
+                        $req_con = "mysql:host=" . $host . ";dbname=" . $basename . "";
+                        //$req2 = "SET NAMES UTF8";
+                        try{
+                                $bdd = new PDO($req_con, $username, $password);
+                                $req = $bdd->prepare("SET NAMES UTF8");
+                                $req->execute();
+
+			//$this->writeLog("Connexion à la base de données ", "log", "senpluvio");
+
+                        }catch(Exception $e){
+                                $bdd = null;
+			$this->writeLog("Problème de connexion à la base de données ", "log", "senpluvio");
+			$this->writeLog("Problème de connexion à la base de données ", "error", "senpluvio");
+                        }
+                }
+                return $bdd;
+        }
 
 		/**
 		* inserer dans la base de données
@@ -126,16 +147,15 @@
 
 
 		function insertMsg($bdd, $msg){
-                        if($bdd != null){
-                                //echo "$courant, $tension_batterie, $tension_panneau, $id_lampe, $etat_lampe, $ladate\n";
-                                $req = "INSERT INTO message(msg) VALUES(:msg);";
-                                $cursor = $bdd->prepare($req);
-                                $cursor->execute(array(
-                                        ":msg" => $msg
-                                ));
-				
-                        }
-                }
+            if($bdd != null){
+                //echo "$courant, $tension_batterie, $tension_panneau, $id_lampe, $etat_lampe, $ladate\n";
+                $req = "INSERT INTO message(msg) VALUES(:msg);";
+                $cursor = $bdd->prepare($req);
+                $cursor->execute(array(
+                        ":msg" => $msg
+                ));
+            }
+        }
 
 		/**
 		* selection de tous les enregistrements
@@ -250,6 +270,7 @@
 				//exec("echo \"$date_heure -> ERROR: $event\" >> /var/log/senpluvio/$index_file");
 				exec("echo \"$date_heure -> ERROR: $event\" >> /var/log/meteo/$index_file");
 				exec("echo \"$date_heure -> ERROR: $event\" >> /var/log/lampadaire/$index_file");
+				exec("echo \"$date_heure -> ERROR: $event\" >> /var/log/senpluvio/$index_file");
 			} 
 			else if($type_event == "log"){
 				$index_file = "succes_" . $index_file . ".log";
@@ -257,9 +278,9 @@
                         }
 			else if($type_event == "buffer"){
 				$index_file = "buffer_" . $index_file . ".log";
-                                exec("echo \"$date_heure -> BUFFER: $event\" >> /var/log/$plateforme/$index_file");
-				
-                        }
+                exec("echo \"$date_heure -> BUFFER: $event\" >> /var/log/$plateforme/$index_file");
+	
+            }
 		}
 
 	}
