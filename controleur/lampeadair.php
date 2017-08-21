@@ -1,7 +1,8 @@
 <?php
 
+//echo $_GET['donnees'] = "plv 2 11 12 17 1 0";
 	//$_GET['donnees'] = 19;
-//	echo $_GET['donnees'] = "2 11 12 17 1 0";
+//echo $_GET['donnees'] = "2 11 12 17 1 0";
 //	echo $_GET['donnees'] = "meteo 12 12 N 16 16 16";
 	if(isset($_GET['donnees'])){
 		$ladate = date("Y-m-d H:i:s");
@@ -41,7 +42,7 @@
             $controller->replicate($bdd_meteo, $data_to_send, "meteo");
 		}
 
-		if($id_lampe == "plv"){
+		else if($id_lampe == "plv"){
 			$controller->insertMsg($bdd_senpluvio, $_GET['donnees'] . " $ladate");
 			
 		}

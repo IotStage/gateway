@@ -49,7 +49,7 @@
                 return $bdd;
         }
 
-        function connecteToDataBaseSenPuvio($host=HOSTNAME, $basename=DATABASE_SENPLUVIO, $username=USERNAME, $password=PASSWORD, $type_base="mysql"){
+        function connecteToDataBaseSenPluvio($host=HOSTNAME, $basename=DATABASE_SENPLUVIO, $username=USERNAME, $password=PASSWORD, $type_base="mysql"){
                 $bdd = null;
                 if($type_base == "mysql"){
                         $req_con = "mysql:host=" . $host . ";dbname=" . $basename . "";
@@ -180,7 +180,7 @@
 
 			if($this->isConnected()){
 				if($plateforme == "lampadaire"){
-					$this->sendData(URL_SITE_MOUSSA_DIALLO, $donnees);
+					$this->sendData(URL_SITE_MOUSSA_DIALLO_LAMPADAIRE, $donnees);
 					
 				}
 				else if($plateforme == "meteo"){
