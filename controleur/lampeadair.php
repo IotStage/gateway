@@ -44,6 +44,18 @@
 
 		else if($id_lampe == "plv"){
 			$controller->insertMsg($bdd_senpluvio, $_GET['donnees'] . " $ladate");
+			$data_to_send = array(
+				"nb_basculement" => floatval($donnees[1]),
+				"date_heure" => $ladate
+			);
+
+//			print_r($data_to_send);
+			
+			//stocker dans la base de donnees
+            $controller->insertToDataBase($bdd_senpluvio, $data_to_send, "senpluvio");
+
+                                //repliquer dans la base le site
+            $controller->replicate($bdd_senpluvio, $data_to_send, "senpluvio");
 			
 		}
 		

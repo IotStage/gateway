@@ -93,18 +93,27 @@
 				else if($plateforme == "meteo"){
 //					print_r($data_array);
 					$req = "INSERT INTO station_meteo(vitesse_vent, direction_vent, cardinalite, temperature, humidite, rayonnement_solaire, date_heure) VALUES(:vitesse_vent, :direction_vent, :cardinalite, :temperature, :humidite, :rayonnement_solaire, :ladate);";
-                                        $cursor = $bdd->prepare($req);
-                                        $cursor->execute(array(
-                                                ":ladate" => $data_array['date_heure'],
-                                                ":vitesse_vent" => $data_array['vitesse_vent'],
-                                                ":direction_vent" => $data_array['direction_vent'], 
-                                                ":cardinalite" => $data_array['cardinalite'],
-                                                ":temperature" => $data_array['temperature'],
-                                                ":humidite" => $data_array['humidite'],
-						":rayonnement_solaire" => $data_array['rayonnement_solaire']
-                                        ));
+                        $cursor = $bdd->prepare($req);
+                        $cursor->execute(array(
+                            ":ladate" => $data_array['date_heure'],
+                            ":vitesse_vent" => $data_array['vitesse_vent'],
+                            ":direction_vent" => $data_array['direction_vent'], 
+                            ":cardinalite" => $data_array['cardinalite'],
+                            ":temperature" => $data_array['temperature'],
+                            ":humidite" => $data_array['humidite'],
+							":rayonnement_solaire" => $data_array['rayonnement_solaire']
+                        ));
 
-				}
+				}else if($plateforme == "senpluvio"){
+                    $req = "INSERT INTO senpluvio(nb_basculement, date_heure) VALUES(:nb_basculement, :ladate);";
+                    $cursor = $bdd->prepare($req);
+                    $cursor->execute(array(
+                        ":ladate" => $data_array['date_heure'],
+                        ":nb_basculement" => $data_array['nb_basculement']
+                            
+                    ));
+
+                }
 			}
 		}
 
@@ -139,6 +148,16 @@
                                                 ":temperature" => $data_array['temperature'],
                                                 ":humidite" => $data_array['humidite'],
                                                 ":rayonnement_solaire" => $data_array['rayonnement_solaire']
+                                        ));
+
+                                }
+                                else if($plateforme == "senpluvio"){
+                                        $req = "INSERT INTO buffer(nb_basculement, date_heure) VALUES(:nb_basculement, :ladate);";
+                                        $cursor = $bdd->prepare($req);
+                                        $cursor->execute(array(
+                                                ":ladate" => $data_array['date_heure'],
+                                                ":nb_basculement" => $data_array['nb_basculement']
+                                                
                                         ));
 
                                 }
@@ -185,6 +204,10 @@
 				}
 				else if($plateforme == "meteo"){
 					$this->sendData(URL_SITE_MOUSSA_DIALLO_METEO, $donnees);
+					
+				}
+				else if($plateforme == "senpluvio"){
+					$this->sendData(URL_SITE_MOUSSA_DIALLO_SENPLUVIO, $donnees);
 					
 				}
 				$this->writeLog("Envoie des données $donnees", "log", $plateforme);

@@ -9,5 +9,5 @@
 
 	define("URL_SITE_MOUSSA_DIALLO_LAMPADAIRE", "http://edmi.ucad.sn/~moussadiallo/remote_lampadaire.php");
 	define("URL_SITE_MOUSSA_DIALLO_METEO", "http://edmi.ucad.sn/~moussadiallo/remote_station_meteo.php"); 
-	define("URL_SITE_MOUSSA_DIALLO_PLV", "http://edmi.ucad.sn/~moussadiallo/remote_senpluvio.php");
+	define("URL_SITE_MOUSSA_DIALLO_SENPLUVIO", "http://edmi.ucad.sn/~moussadiallo/remote_senpluvio.php");
 ?>
